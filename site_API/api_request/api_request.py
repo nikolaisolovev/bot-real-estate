@@ -1,8 +1,10 @@
 from typing import List
 
 from site_API.core import headers, params, site_api, url
+from tg_API.utils.exception_handlers import timeout_exception
 
 
+@timeout_exception
 def request_from_user(user_city: str, user_ordering: str, user_units: int, id: int) -> List:
     prop_for_user = site_api.get_property()
 
@@ -23,6 +25,7 @@ def request_from_user(user_city: str, user_ordering: str, user_units: int, id: i
 
     for i_unit in range(user_units):
         price_per_month = listing[i_unit]["rental_prices"]["per_month"]
+        address = listing[i_unit]["agent_address"]
         photo = listing[i_unit]["image_url"]
 
         data = {
@@ -30,6 +33,7 @@ def request_from_user(user_city: str, user_ordering: str, user_units: int, id: i
             "county": response.get("county", None),
             "price": price_per_month,
             "user_id": id,
+            "address": address,
             "photo": photo
         }
 
@@ -38,6 +42,7 @@ def request_from_user(user_city: str, user_ordering: str, user_units: int, id: i
     return result_list
 
 
+@timeout_exception
 def custom_request_from_user(user_city: str, user_min_value: int, user_max_value: int, user_units: int, id: int) -> List:
     prop_for_user = site_api.get_property()
 
@@ -57,7 +62,9 @@ def custom_request_from_user(user_city: str, user_min_value: int, user_max_value
 
     for i_unit in range(user_units):
         price_per_month = listing[i_unit]["rental_prices"]["per_month"]
+        address = listing[i_unit]["agent_address"]
         photo = listing[i_unit]["image_url"]
+        details_url = listing[i_unit]["details_url"]
         if price_per_month in range(user_min_value, user_max_value):
 
             data = {
@@ -65,7 +72,9 @@ def custom_request_from_user(user_city: str, user_min_value: int, user_max_value
                 "county": response.get("county", None),
                 "price": price_per_month,
                 "user_id": id,
-                "photo": photo
+                "address": address,
+                "photo": photo,
+                "url": details_url
             }
 
             result_list.append(data)

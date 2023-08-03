@@ -29,8 +29,8 @@ def present_property(message: Message, ordering: str, city: str) -> None:
     units = int(message.text)
 
     if units > 40:
-        bot.send_message(message.from_user.id, "Количество квартир должно быть не более 40")
-        bot.register_next_step_handler("Введите количество: ", unit_quantity)
+        bot.send_message(message.from_user.id, "The number of apartments should be no more than 40")
+        bot.register_next_step_handler("Enter the quantity: ", unit_quantity)
 
     else:
         user_id = message.from_user.id
@@ -38,7 +38,7 @@ def present_property(message: Message, ordering: str, city: str) -> None:
         try:
             data = api_request.request_from_user(city, ordering, units, user_id)
 
-            bot.send_message(message.from_user.id, f'Результаты по вашему запросу: ')
+            bot.send_message(message.from_user.id, f'Results for your request: ')
 
             if len(data) >= units:
                 for i in range(units):
@@ -48,7 +48,9 @@ def present_property(message: Message, ordering: str, city: str) -> None:
 
                     result_message = f"\nCity: {city}" \
                                      f"\nCounty: {data_dict['county']}" \
-                                     f"\nMonthly rent: {data_dict['price']}"
+                                     f"\nMonthly rent: {data_dict['price']}" \
+                                     f"\nAddress: {data_dict['address']}" \
+                                     f"\nURL for details: {data_dict['url']}"
 
                     bot.send_message(message.from_user.id, result_message)
                     bot.send_media_group(message.from_user.id, media=send_photo(photo))
@@ -61,7 +63,9 @@ def present_property(message: Message, ordering: str, city: str) -> None:
 
                     result_message = f"\nCity: {city}" \
                                      f"\nCounty: {data_dict['county']}" \
-                                     f"\nMonthly rent: {data_dict['price']}"
+                                     f"\nMonthly rent: {data_dict['price']}" \
+                                     f"\nAddress: {data_dict['address']}" \
+                                     f"\nURL for details: {data_dict['url']}"
 
                     bot.send_message(message.from_user.id, result_message)
                     bot.send_media_group(message.from_user.id, media=send_photo(photo))

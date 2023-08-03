@@ -11,6 +11,7 @@ INSTRUCTION = "To find out the bot's commands enter /help"
 
 HELP_MESSAGE = '/low -  finding the cheapest apartment in town\n' \
                '/high - the most expensive apartment in town\n' \
+               '/custom - list of apartments in your price range\n' \
                '/history - history of search\n' \
                '/help - list of available commands\n' \
 

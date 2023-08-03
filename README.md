@@ -8,7 +8,7 @@ that the agency has available.
 Run in the console:
 ```
 git clone https://gitlab.skillbox.ru/nikolai_solovev/python_basic_diploma
-pip install -r requirments.txt
+pip install -r requirements.txt
 ```
 
 ### Setup

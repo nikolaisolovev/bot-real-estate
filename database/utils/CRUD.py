@@ -8,9 +8,9 @@ from ..common.models import db
 T = TypeVar("T")
 
 
-def _store_date(db: db, model: T, *data: List[Dict]) -> None:
+def _store_date(db: db, model: T, data: Dict) -> None:
     with db.atomic():
-        model.insert_many(*data).execute()
+        model.create(**data)
 
 
 def _retrieve_all_data(db: db, model: T, *columns: ModelBase, id) -> ModelSelect:

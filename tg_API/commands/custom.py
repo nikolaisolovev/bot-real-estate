@@ -41,7 +41,7 @@ def present_property(message: Message, city: str, min_value: int, max_value) -> 
     try:
         data = api_request.custom_request_from_user(city, min_value, max_value, units, user_id)
 
-        bot.send_message(message.chat.id, f'Результаты по вашему запросу: ')
+        bot.send_message(message.from_user.id, f'Results for your request: ')
 
         if len(data) >= units:
             for i in range(units):
@@ -51,7 +51,9 @@ def present_property(message: Message, city: str, min_value: int, max_value) -> 
 
                 result_message = f"\nCity: {city}" \
                                  f"\nCounty: {data_dict['county']}" \
-                                 f"\nMonthly rent: {data_dict['price']}"
+                                 f"\nMonthly rent: {data_dict['price']}" \
+                                 f"\nAddress: {data_dict['address']}" \
+                                 f"\nURL for details: {data_dict['url']}"
 
                 bot.send_message(message.from_user.id, result_message)
                 bot.send_media_group(message.from_user.id, media=send_photo(photo))
@@ -64,12 +66,15 @@ def present_property(message: Message, city: str, min_value: int, max_value) -> 
 
                 result_message = f"\nCity: {city}" \
                                  f"\nCounty: {data_dict['county']}" \
-                                 f"\nMonthly rent: {data_dict['price']}"
+                                 f"\nMonthly rent: {data_dict['price']}" \
+                                 f"\nAdress: {data_dict['address']}" \
+                                 f"\nURL for details: {data_dict['url']}"
 
                 bot.send_message(message.from_user.id, result_message)
                 bot.send_media_group(message.from_user.id, media=send_photo(photo))
 
     except Exception:
+        print('Error Exception')
         bot.send_message(message.from_user.id, constants.ERROR_MESSAGE)
 
 
