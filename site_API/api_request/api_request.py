@@ -26,6 +26,7 @@ def request_from_user(user_city: str, user_ordering: str, user_units: int, id: i
     for i_unit in range(user_units):
         price_per_month = listing[i_unit]["rental_prices"]["per_month"]
         address = listing[i_unit]["agent_address"]
+        details_url = listing[i_unit]["details_url"]
         photo = listing[i_unit]["image_url"]
 
         data = {
@@ -34,7 +35,8 @@ def request_from_user(user_city: str, user_ordering: str, user_units: int, id: i
             "price": price_per_month,
             "user_id": id,
             "address": address,
-            "photo": photo
+            "photo": photo,
+            "url": details_url
         }
 
         result_list.append(data)
