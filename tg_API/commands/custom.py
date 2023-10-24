@@ -45,37 +45,28 @@ def present_property(message: Message, city: str, min_value: int, max_value) -> 
 
         if len(data) >= units:
             for i in range(units):
-                data_dict = data[i]
-                photo = data_dict["photo"]
-                db_write(db, History, data_dict)
-
-                result_message = f"\nCity: {city}" \
-                                 f"\nCounty: {data_dict['county']}" \
-                                 f"\nMonthly rent: {data_dict['price']}" \
-                                 f"\nAddress: {data_dict['address']}" \
-                                 f"\nURL for details: {data_dict['url']}"
-
-                bot.send_message(message.from_user.id, result_message)
-                bot.send_media_group(message.from_user.id, media=send_photo(photo))
+                write_to_db_and_send_message(city, data, i, message)
 
         else:
             for i in range(len(data)):
-                data_dict = data[i]
-                photo = data_dict["photo"]
-                db_write(db, History, data_dict)
-
-                result_message = f"\nCity: {city}" \
-                                 f"\nCounty: {data_dict['county']}" \
-                                 f"\nMonthly rent: {data_dict['price']}" \
-                                 f"\nAdress: {data_dict['address']}" \
-                                 f"\nURL for details: {data_dict['url']}"
-
-                bot.send_message(message.from_user.id, result_message)
-                bot.send_media_group(message.from_user.id, media=send_photo(photo))
+                write_to_db_and_send_message(city, data, i, message)
 
     except Exception:
         print('Error Exception')
         bot.send_message(message.from_user.id, constants.ERROR_MESSAGE)
+
+
+def write_to_db_and_send_message(city, data, i, message):
+    data_dict = data[i]
+    photo = data_dict["photo"]
+    db_write(db, History, data_dict)
+    result_message = f"\nCity: {city}" \
+                     f"\nCounty: {data_dict['county']}" \
+                     f"\nMonthly rent: {data_dict['price']}" \
+                     f"\nAddress: {data_dict['address']}" \
+                     f"\nURL for details: {data_dict['url']}"
+    bot.send_message(message.from_user.id, result_message)
+    bot.send_media_group(message.from_user.id, media=send_photo(photo))
 
 
 def send_photo(photo_url: str) -> List:
